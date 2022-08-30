@@ -6,7 +6,7 @@ import ru.itentica.autoservice.entities.*;
 
 import java.util.List;
 
-public interface IOrderService {
+public interface OrderService {
     /**
      * Создание заявки.
      *
@@ -128,7 +128,7 @@ public interface IOrderService {
      * @param masterId идентификатор мастера
      * @return заявка в статусе ACCEPTED
      */
-    Order moveOrderToWork(Long orderId, int masterId) throws Throwable;
+    Order moveOrderToWork(Long orderId, Long masterId) throws Throwable;
 
     /**
      * Добавление списка работ в заказ.

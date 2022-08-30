@@ -5,10 +5,10 @@ import ru.itentica.autoservice.entities.*;
 import java.util.Collection;
 import java.util.List;
 
-public interface IPrincipalProvider {
-    Principal getClient(int id) throws Throwable;
-    Principal getAdministrator(int id) throws Throwable;
-    Principal getWorker(int id) throws Throwable;
+public interface PrincipalService {
+    Principal getClient(Long id) throws Throwable;
+    Principal getAdministrator(Long id) throws Throwable;
+    Principal getWorker(Long id) throws Throwable;
 
     Principal getClientWithoutId(String name, String phoneNumber, String address);
 

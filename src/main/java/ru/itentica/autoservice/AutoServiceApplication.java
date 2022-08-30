@@ -60,7 +60,7 @@ public class AutoServiceApplication {
             log.info("");
         };
     }*/
-    @Bean
+/*    @Bean
     public CommandLineRunner demo2(OrderRepository repository) {
         return (args) -> {
             // save a few customers
@@ -105,27 +105,29 @@ public class AutoServiceApplication {
 
             log.info("");
         };
-    }
+    }*/
 
-    private Order getExistedElement(OrderRepository repository) {
+/*    private Order getExistedElement(OrderRepository repository) {
         List<Order> all = repository.findAll();
         return all!=null && !all.isEmpty() ? all.iterator().next() : null;
-    }
+    }*/
 
+//    @Bean
+//    public IPrincipalProvider getPrincipalProvider() {
+//        return new JDBCPrincipalProviderImpl();
+//    }
+/*
     @Bean
-    public IPrincipalProvider getPrincipalProvider() {
-        return new JDBCPrincipalProviderImpl();
-    }
-
-/*    @Bean
     public PrincipalRepository getPrincipalRepository() {
         return new PrincipalRepositoryImpl();
     }*/
 
+/*
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
+*/
 
     @Bean
     public DataSource getDataSource()
@@ -139,22 +141,13 @@ public class AutoServiceApplication {
         dataSource.setUsername("postgres");
         dataSource.setPassword("Password");
         return dataSource;
-//        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-//        dataSourceBuilder.driverClassName("org.postgresql.Driver");
-//
-//        dataSourceBuilder.setAutoCommitOnReturn(false);
-//        dataSourceBuilder.setDefaultAutoCommit(false);
-//        dataSourceBuilder.url("jdbc:postgresql://localhost:5432/AutoService");
-//        dataSourceBuilder.username("postgres");
-//        dataSourceBuilder.password("Password");
-//
-//        return dataSourceBuilder.build().;
+
     }
 
-/*    @Bean
-    public IOrderService getOrderService() {
-        return new OrderServiceImpl(getPrincipalProvider());
-    }*/
+//    @Bean
+//    public IOrderService getOrderService() {
+//        return new OrderServiceImpl(getPrincipalProvider());
+//    }
     // Transaction manager bean definition
     @Bean
     public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {

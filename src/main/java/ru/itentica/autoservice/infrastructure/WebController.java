@@ -1,6 +1,7 @@
 package ru.itentica.autoservice.infrastructure;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.itentica.autoservice.entities.*;
-import ru.itentica.autoservice.services.IOrderService;
-import ru.itentica.autoservice.services.IPrincipalProvider;
+import ru.itentica.autoservice.repository.PrincipalRepositoryImpl;
+import ru.itentica.autoservice.services.JDBCPrincipalServiceImpl;
+import ru.itentica.autoservice.services.OrderService;
+import ru.itentica.autoservice.services.PrincipalService;
 import ru.itentica.autoservice.services.IdProvider;
 
 import java.time.LocalDate;
@@ -26,21 +29,21 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/")
 public class WebController {
-    @Autowired
-    private IPrincipalProvider principalProvider;
+//    @Autowired
+    private PrincipalService principalProvider = new JDBCPrincipalServiceImpl(new PrincipalRepositoryImpl(new JdbcTemplate())); // change to autowire
 
 //    @Autowired
-    private IOrderService orderService = getOService();
+    private OrderService orderService = getOService();
 
-    private IOrderService getOService() {
-        return new IOrderService() {
+    private OrderService getOService() {
+        return new OrderService() {
             @Override
             public Order orderRegistration(String login, Order order, String comment) {
                 return null;
             }
 
             @Override
-            public Order moveOrderToWork(Long orderId, int masterId) throws Throwable {
+            public Order moveOrderToWork(Long orderId, Long masterId) throws Throwable {
                 return null;
             }
 
@@ -291,7 +294,7 @@ public class WebController {
     }
     private void assignWorkerToOrder(Map<String, String> allParams) throws Throwable {
         Long orderId = Long.parseLong(allParams.get("order_id"));
-        int workerId = Integer.parseInt(allParams.get("worker_id"));
+        Long workerId = Long.parseLong(allParams.get("worker_id"));
 
         orderService.moveOrderToWork(orderId, workerId);
     }

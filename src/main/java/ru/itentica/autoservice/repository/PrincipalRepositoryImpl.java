@@ -11,8 +11,12 @@ import java.util.List;
 @Repository
 public class PrincipalRepositoryImpl implements PrincipalRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+
+    public PrincipalRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
 
     @Override
     @Transactional

@@ -10,6 +10,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import ru.itentica.autoservice.entities.*;
+import ru.itentica.autoservice.services.IdProvider;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -55,8 +56,10 @@ public class OrderRepositoryImpl implements OrderRepository{
                 order.getEndDate(),
                 order.getComment(),
                 client.getId(),
-                master.getId(),
-                administrator.getId());
+                getCheckedId(master),
+                getCheckedId(administrator)
+/*                master.getId(),
+                administrator.getId()*/);
         platformTransactionManager.commit(status);
         status = platformTransactionManager.getTransaction(paramTransactionDefinition);
         System.out.println(">>>>>>>>>>>>>>> after insert into order");
@@ -69,6 +72,13 @@ public class OrderRepositoryImpl implements OrderRepository{
         saveWorkItems(order);
         System.out.println(">>>>> after save work items");
         platformTransactionManager.commit(status);
+    }
+
+    private Long getCheckedId(Principal principal) {
+        if (principal == null) {
+            return null;
+        }
+        return principal.getId();
     }
 
     private void saveWorkItems(Order order) {

@@ -1,6 +1,7 @@
 package ru.itentica.autoservice.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itentica.autoservice.entities.*;
 import ru.itentica.autoservice.repository.OrderRepository;
@@ -9,20 +10,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Supplier;
 
-public class OrderServiceImpl /*implements IOrderService*/ {
-/*
+@Service
+public class OrderServiceImpl implements OrderService {
 //    public static final int UNDEFINED_ID = -1;
     public static final Long UNDEFINED_ID = -1L;
-    private final IPrincipalProvider principalProvider;
+    @Autowired
+    private PrincipalService principalProvider;
     //private final Map<Integer, Order> ordersMap = new HashMap<>();
     @Autowired
     OrderRepository orderRepository;
-
-    public OrderServiceImpl(IPrincipalProvider principalProvider) {
-        this.principalProvider = principalProvider;
-    }
 
     @Override
     @Transactional
@@ -47,23 +44,23 @@ public class OrderServiceImpl /*implements IOrderService*/ {
         return order;
     }
 
-    private OrderHistory createOrderHistoryItemInNewStatus(String comment, Date creationDate) {
+    private List<OrderHistoryItem> createOrderHistoryItemInNewStatus(String comment, Date creationDate) {
         Long id = IdProvider.getNextLongId();
-        OrderHistory orderHistory = new OrderHistory();
+        List<OrderHistoryItem> orderHistory = new ArrayList<>();
         OrderHistoryItem orderHistoryItem = new OrderHistoryItem(id, OrderStatus.NEW, comment, creationDate);
-        orderHistory.addOrderHistoryItem(orderHistoryItem);
+        orderHistory.add(orderHistoryItem);
 
         return orderHistory;
     }
 
     @Override
     @Transactional
-    public Order moveOrderToWork(Long orderId, int masterId) throws Throwable {
+    public Order moveOrderToWork(Long orderId, Long masterId) throws Throwable {
         Order order = getOrder(orderId);
         //Order order = ordersMap.get(orderId);
         Principal master = principalProvider.getWorker(masterId);
-        OrderHistory orderHistory = order.getOrderHistory();
-        orderHistory.addOrderHistoryItem(new OrderHistoryItem(IdProvider.getNextLongId(), OrderStatus.ACCEPTED,
+        List<OrderHistoryItem> orderHistory = order.getOrderHistoryItemsList();
+        orderHistory.add(new OrderHistoryItem(IdProvider.getNextLongId(), OrderStatus.ACCEPTED,
                 "Order was accepted", new Date()));
         order.setMaster(master);
 
@@ -82,8 +79,8 @@ public class OrderServiceImpl /*implements IOrderService*/ {
 
         //Order order = ordersMap.get(orderId);
 
-        OrderHistory orderHistory = order.getOrderHistory();
-        orderHistory.addOrderHistoryItem(new OrderHistoryItem(IdProvider.getNextLongId(), orderStatus,
+        List<OrderHistoryItem> orderHistory = order.getOrderHistoryItemsList();
+        orderHistory.add(new OrderHistoryItem(IdProvider.getNextLongId(), orderStatus,
                 comment, new Date()));
 
         if (orderStatus.equals(OrderStatus.DONE))
@@ -100,14 +97,13 @@ public class OrderServiceImpl /*implements IOrderService*/ {
     @Override
     public Order createInitialOrder(String reason, String comment, Principal client) {
         return new Order(UNDEFINED_ID, reason, new Date(), null, comment, Collections.<WorkItem>emptyList(),
-                null, client, null, null);
+                Collections.<OrderHistoryItem>emptyList(), client, null, null);
     }
 
     @Override
     @Transactional
     public Order getOrder(Long orderId) throws Throwable {
-        return orderRepository.findById(orderId)
-                .orElseThrow((Supplier<Throwable>) () -> new IllegalArgumentException("Incorrect orderId"));
+        return orderRepository.findById(orderId);
        // return ordersMap.get(orderId);
     }
 
@@ -129,5 +125,5 @@ public class OrderServiceImpl /*implements IOrderService*/ {
 
         orderRepository.save(order);
         //ordersMap.put(order.getId(), order);
-    }*/
+    }
 }
