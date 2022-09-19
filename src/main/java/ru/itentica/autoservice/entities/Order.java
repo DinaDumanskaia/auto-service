@@ -77,6 +77,13 @@ public class Order {
         return orderHistoryItems;
     }
 
+    public OrderHistoryItem getLastOrderHistoryItem() throws Exception {
+        if (orderHistoryItems.isEmpty())
+            throw new Exception("Order history is empty");
+
+        return orderHistoryItems.get(orderHistoryItems.size() - 1);
+    }
+
     public Principal getClient() {
         return client;
     }

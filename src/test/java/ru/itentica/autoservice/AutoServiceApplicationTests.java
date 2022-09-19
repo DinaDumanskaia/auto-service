@@ -57,7 +57,7 @@ class AutoServiceApplicationTests {
         return principal;
     }
 
-    @Test
+ /*   @Test
     void moveOrderToWorkTest() throws Throwable { // проверить, что нет эксепшена
         Order registeredOrder = registerNewOrder();
         Order acceptedOrder = orderService.moveOrderToWork(registeredOrder.getId(), WORKER_ID);
@@ -95,5 +95,5 @@ class AutoServiceApplicationTests {
         orderService.updateOrderStatus(id, OrderStatus.DONE, "Work is done");
         assertEquals(orderService.getOrder(id).getOrderHistoryItemsList().get(registeredOrder.getOrderHistoryItemsList().size() - 1).getStatus(), OrderStatus.DONE);
     }
-
+*/
 }

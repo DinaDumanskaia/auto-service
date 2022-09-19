@@ -123,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
         if (order.getId() == UNDEFINED_ID)
             throw new Exception("Order should have id");
 
-        orderRepository.save(order);
+        orderRepository.update(order);
         //ordersMap.put(order.getId(), order);
     }
 }

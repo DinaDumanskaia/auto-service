@@ -35,4 +35,20 @@ public class OrderHistoryItem {
     public Date getCreationDate() {
         return creationDate;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }

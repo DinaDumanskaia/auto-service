@@ -1,6 +1,7 @@
 package ru.itentica.autoservice.services;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.itentica.autoservice.entities.*;
 import ru.itentica.autoservice.repository.PrincipalRepository;
@@ -12,13 +13,14 @@ import static ru.itentica.autoservice.services.OrderServiceImpl.UNDEFINED_ID;
 
 @Service
 public class JDBCPrincipalServiceImpl implements PrincipalService {
-//    @Autowired
+    @Autowired
     private PrincipalRepository principalRepository;
 
     public static final Long CLIENT_ID = IdProvider.getNextLongId();
     public static final Long ADMIN_ID = IdProvider.getNextLongId();
     public static final Long WORKER_ID = IdProvider.getNextLongId();
 
+    @Autowired
     public JDBCPrincipalServiceImpl(PrincipalRepository principalRepository) {
         this.principalRepository = principalRepository;
     }

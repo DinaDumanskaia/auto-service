@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.itentica.autoservice.entities.*;
 import ru.itentica.autoservice.repository.PrincipalRepositoryImpl;
-import ru.itentica.autoservice.services.JDBCPrincipalServiceImpl;
-import ru.itentica.autoservice.services.OrderService;
-import ru.itentica.autoservice.services.PrincipalService;
-import ru.itentica.autoservice.services.IdProvider;
+import ru.itentica.autoservice.services.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -29,13 +26,13 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/")
 public class WebController {
-//    @Autowired
-    private PrincipalService principalProvider = new JDBCPrincipalServiceImpl(new PrincipalRepositoryImpl(new JdbcTemplate())); // change to autowire
+    @Autowired
+    private PrincipalService principalProvider;/* = new JDBCPrincipalServiceImpl(new PrincipalRepositoryImpl(new JdbcTemplate()))*/; // change to autowire
 
-//    @Autowired
-    private OrderService orderService = getOService();
+    @Autowired
+    private OrderService orderService;/* = new OrderServiceImpl();*/
 
-    private OrderService getOService() {
+    /*private OrderService getOService() {
         return new OrderService() {
             @Override
             public Order orderRegistration(String login, Order order, String comment) {
@@ -77,9 +74,14 @@ public class WebController {
 
             }
         };
+    }*/
+
+    @RequestMapping(value ="/", method = RequestMethod.GET)
+    public String startPage(@ModelAttribute("model") ModelMap model) {
+        return "index";
     }
 
-    @RequestMapping(value = "/principals", method = RequestMethod.GET)
+    @RequestMapping(value ="/principals", method = RequestMethod.GET)
     public String principalView(@ModelAttribute("model") ModelMap model) {
         model.addAttribute("principalCollection", principalProvider.getAllPrincipals());
         return "principals";

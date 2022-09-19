@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class AutoServiceApplication {
     private static final Logger log = LoggerFactory.getLogger(AutoServiceApplication.class);
 
@@ -129,7 +129,6 @@ public class AutoServiceApplication {
     }
 */
 
-    @Bean
     public DataSource getDataSource()
     {
         BasicDataSource dataSource = new BasicDataSource();
@@ -144,17 +143,17 @@ public class AutoServiceApplication {
 
     }
 
-//    @Bean
-//    public IOrderService getOrderService() {
-//        return new OrderServiceImpl(getPrincipalProvider());
-//    }
-    // Transaction manager bean definition
-    @Bean
+
     public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {
         DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
         dataSourceTransactionManager.setDataSource(dataSource);
 
         return dataSourceTransactionManager;
     }
+//    @Bean
+//    public IOrderService getOrderService() {
+//        return new OrderServiceImpl(getPrincipalProvider());
+//    }
+    // Transaction manager bean definition
 
 }
